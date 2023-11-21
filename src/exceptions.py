@@ -3,7 +3,7 @@ import traceback
 from src.logger import logging
 
 def error_message_details(error, error_details: sys):
-    _, _, err_tb = sys.exc_info()
+    _, _, err_tb = error_details.exc_info()
     filename = err_tb.tb_frame.f_code.co_filename
     error_message = "Error occurred in Python script [{0}] line no [{1}] error message [{2}]".format(
         filename, err_tb.tb_lineno, str(error)
