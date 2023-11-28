@@ -7,6 +7,11 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
+
+from src.components.model_trainer import ModelTrainerConfig, ModelTrainer
+
 @dataclass
 class DataIngestionConfig:
     train_data_path:  str=os.path.join("artifacts", "train.csv")
@@ -43,6 +48,11 @@ class DataIngestion:
         except Exception as e:
             raise CustomException(e, sys)
 
-# if __name__ == "__main__":
-#     obj = DataIngestion()
-#     obj.initiate_data_ingestion()
+if __name__ == "__main__":
+    obj = DataIngestion()
+    train_data, test_data= obj.initiate_data_ingestion()
+
+    data_transformer = DataTransformation()
+    train_arr, test_arr,_ =data_transformer.initiate_data_transformation(train_data, test_data)
+    model_trainer = ModelTrainer()
+    print(model_trainer.initiate_model_trainer(train_arr, test_arr))
