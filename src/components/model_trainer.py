@@ -27,45 +27,53 @@ class ModelTrainer:
 
     def initiate_model_trainer(self, train_arr, test_arr):
         try:
-            logging.info("Splittng Training snd testing Data")
-            X_train,X_test,y_train,y_test = (
-                train_arr[:,:-1],
-                test_arr[:,:-1],
-                train_arr[:,-1],
-                test_arr[:,-1]
+            logging.info("Splitting Training and testing Data")
+            X_train, X_test, y_train, y_test = (
+                train_arr[:, :-1],
+                test_arr[:, :-1],
+                train_arr[:, -1],
+                test_arr[:, -1]
             )
 
             models = {
                 "Random Forest": RandomForestRegressor(),
                 "Decision Tree": DecisionTreeRegressor(),
                 "Gradient Boosting": GradientBoostingRegressor(),
-                "Linear Regressor" : LinearRegression(),
+                "Linear Regressor": LinearRegression(),
                 "K-Neighbors Regressor": KNeighborsRegressor(),
-                "XGBRegressor":XGBRegressor(),
+                "XGBRegressor": XGBRegressor(),
                 "AdaBoost Regressor": AdaBoostRegressor()
             }
 
-            models_report:dict= evaluate_model(x_train=X_train,y_train=y_train,x_test=X_test,y_test=y_test, models=models)
+            models_report: dict = evaluate_model(x_train=X_train, y_train=y_train, x_test=X_test, y_test=y_test,
+                                                 models=models)
 
             best_model_score = max(sorted(models_report.values()))
             best_model_name = list(models_report.keys())[
                 list(models_report.values()).index(best_model_score)
             ]
 
+            # Get the best model instance (not fitted yet)
             best_model = models[best_model_name]
 
-            if best_model_score<0.6:
+            if best_model_score < 0.6:
                 raise CustomException("No Best model found")
 
-            logging.info("Best model found on training and test data")
+            # Fit the best model with training data
+            best_model.fit(X_train, y_train)
+
+            logging.info("Best model {} found on training and test data".format(best_model_name))
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
-                obj= best_model
-                )
+                obj=best_model
+            )
 
+            # Predict using the fitted model
             predicted = best_model.predict(X_test)
-            r2_square = r2_score(y_test,predicted)
+            r2_square = r2_score(y_test, predicted)
             return r2_square
+
         except Exception as e:
             raise CustomException(e, sys)
+
