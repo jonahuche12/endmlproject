@@ -64,3 +64,11 @@ def get_parameter_grid(model_name):
     # Add similar blocks for other models
 
     return {}  # Return an empty dictionary for models without hyperparameters
+
+
+def load_object(file_path):
+    try:
+        with open(file_path, 'rb') as file_obj:
+            return dill.load(file_obj)  # Corrected from dill.dump to dill.load
+    except Exception as e:
+        raise CustomException(e, sys)

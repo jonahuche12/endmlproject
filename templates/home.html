@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Collection Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .prediction-space {
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div style="margin-top: 100px;">
+
+    <form method="post" action="{{url_for('predict_datapoint')}}">
+        <h2>Data Collection Form</h2>
+
+        
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+        </select>
+        <br>
+
+
+        <label for="race_ethnicity">Race/Ethnicity:</label>
+        <select name="race_ethnicity" required>
+            <option value="group A">group A</option>
+            <option value="group B">group B</option>
+            <option value="group C">group C</option>
+            <option value="group D">group D</option>
+            <option value="group E">group E</option>
+        </select>
+
+        <label for="parental_level_of_education">Parental Level of Education:</label>
+        <select id="parental_level_of_education" name="parent_education">
+            <option value="bachelor's degree">Bachelor's Degree</option>
+            <option value="some college">Some College</option>
+            <option value="master's degree">Master's Degree</option>
+            <option value="associate's degree">Associate's Degree</option>
+            <option value="high school">High School</option>
+            <option value="some high school">Some High School</option>
+        </select>
+
+        <br>
+
+        <label for="lunch">Lunch:</label>
+        <select id="lunch" name="lunch">
+            <option value="standard">Standard</option>
+            <option value="free/reduced">Free/Reduced</option>
+        </select>
+
+        <br>
+
+        <label for="test_preparation_course">Test Preparation Course:</label>
+        <select id="test_preparation_course" name="test_preparation_course">
+            <option value="none">None</option>
+            <option value="completed">Completed</option>
+        </select>
+
+        <br>
+
+
+        <label for="writing_score">Writing Score:</label>
+        <input type="text" name="writing_score" required>
+
+        <label for="reading_score">Reading Score:</label>
+        <input type="text" name="reading_score" required>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+
+    <div class="prediction-space">
+        <h3>Prediction:</h3>
+        <h4>The Result is  {{results}}</h4>
+    </div>
+
+</body>
+</html>
